@@ -1,6 +1,6 @@
 esphome:
   name: rack-sensor
-  friendly_name: Czujnik Rack
+  friendly_name: Rack Sensor
 
 esp32:
   board: esp32dev
@@ -90,8 +90,8 @@ display:
     address: 0x3C
     lambda: |-
 
-      // Print "Czujnik Rack" in top center.
-      it.printf(38, 0, id(font1), TextAlign::TOP_CENTER, "Czujnik Rack");
+      // Print "Rack Sensor" in top center.
+      it.printf(38, 0, id(font1), TextAlign::TOP_CENTER, "Rack Sensor");
 
       // Print time in HH:MM format
       it.strftime(89, 0, id(font1), TextAlign::TOP_CENTER, "%H:%M", id(esptime).now());
