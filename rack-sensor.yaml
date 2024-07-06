@@ -96,7 +96,7 @@ display:
       // Print time in HH:MM format
       it.strftime(89, 0, id(font1), TextAlign::TOP_CENTER, "%H:%M", id(esptime).now());
 
-      // Print dht_humidity_rackk (from dht sensor)
+      // Print dht_humidity_rack (from dht sensor)
       if (id(dht_humidity_rack).has_state()) {
         it.printf(60, 64, id(font2), TextAlign::BASELINE_CENTER, "%.0f%%", id(dht_humidity_rack).state);
       } else {
