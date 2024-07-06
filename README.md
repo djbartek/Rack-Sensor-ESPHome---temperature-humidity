@@ -16,6 +16,7 @@ Needs:
 - ESP-WROOM-32 with WiFi (micro USB)
 - OLED 1,3″ 128x64px I2C (4pin)
 - About 50g of filament
+- 6 screws
 
 Connection guide for dummies:
 - Inside there is enough space to use female-female connection wires, no need to solder to any of the components! (as long they have male pin connectors)
