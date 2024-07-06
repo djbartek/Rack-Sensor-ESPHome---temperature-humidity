@@ -18,7 +18,7 @@ Needs:
 - About 50g of filament
 
 Connection guide for dummies:
-- Inside there is enough space to use female-female connection wires, no need to solder to any of the components! (as long they have male pins connectors)
+- Inside there is enough space to use female-female connection wires, no need to solder to any of the components! (as long they have male pin connectors)
 - Connect ESP32 3.3V pin to OLED VCC pin AND DHT22 VCC pin
 - ConnectESP32 GND pin to DHT GND pin AND OLED GND pin
 - Connect DHT22 Data pin to ESP32 pin21
