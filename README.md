@@ -2,7 +2,7 @@
 
 Mounted to the right side rail. Needs right angled micro usb cord to power, straight ones do not seat properly with rack rail.
 
-Shows name ("Czujnik Rack" - easily changed in czujnik-rack.yaml file), time, temperature & humidity and connection with HomeAssistant:
+Shows name ("Rack Sensor" - easily changed in czujnik-rack.yaml file), time, temperature & humidity and connection with HomeAssistant:
 - "((o))" for connected
 - "I" for not connected
 
