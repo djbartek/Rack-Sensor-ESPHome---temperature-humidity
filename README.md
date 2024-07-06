@@ -25,3 +25,5 @@ Connection guide for dummies:
 - Connect DHT22 Data pin to ESP32 pin21
 - Connect OLED SDA pin to ESP32 pin18
 - Connect OLED SCL pin to ESP32 pin19
+
+Printables page: https://www.printables.com/pl/model/935048-1u-rack-sensor-esphome-temperature-humidity
