@@ -65,6 +65,10 @@ sensor:
 
 font:
   - file: 'arial.ttf'
+    id: font0
+    size: 4
+
+  - file: 'arial.ttf'
     id: font1
     size: 11
 
@@ -86,7 +90,7 @@ font:
 
   - file: 'arial.ttf'
     id: font6
-    size: 35
+    size: 41
 
 time:
   - platform: homeassistant
@@ -103,6 +107,11 @@ display:
     address: 0x3C
     lambda: |-
 
+      // Print signal (main)
+      if (id(czujnik_dymu).state >=60) {
+        it.printf(64, 12, id(font6), TextAlign::TOP_CENTER, "! DYM !");
+      } else {
+      
       // Print "Czujnik Rack" in top center.
       it.printf(38, 0, id(font1), TextAlign::TOP_CENTER, "Czujnik Rack");
 
@@ -118,24 +127,22 @@ display:
 
       // Print dht_temperatura_rack (from dht sensor)
       if (id(dht_temperatura_rack).has_state()) {
-        it.printf(50, 35, id(font2), TextAlign::BASELINE_CENTER, "%.1f°C", id(dht_temperatura_rack).state);
+        it.printf(48, 36, id(font2), TextAlign::BASELINE_CENTER, "%.1f°C", id(dht_temperatura_rack).state);
       } else {
-        it.printf(50, 35, id(font2), TextAlign::BASELINE_CENTER, "Error");
+        it.printf(50, 36, id(font2), TextAlign::BASELINE_CENTER, "Error");
       }      
 
       // Print signal (from homeassistant sensor)
       if (id(core_update).has_state()) {
         it.printf(118, 0, id(font4), TextAlign::TOP_CENTER, "((o))");
       } else {
-        it.printf(118, 0, id(font4), TextAlign::TOP_CENTER, "I");
+        it.printf(118, 0, id(font4), TextAlign::TOP_CENTER, "???");
       }
 
       // Print signal (from homeassistant sensor)
-      if (id(czujnik_dymu).state <70) {
+      if (id(czujnik_dymu).state <60) {
         it.printf(114, 27, id(font5), TextAlign::TOP_CENTER, "Air :");
         it.printf(114, 45, id(font5), TextAlign::TOP_CENTER, "%.0f%%", id(czujnik_dymu).state);
-      } else if (id(czujnik_dymu).state >=70) {
-        it.printf(60, 25, id(font6), TextAlign::TOP_CENTER, "! DYM !");
       } else {
         it.printf(114, 45, id(font1), TextAlign::TOP_CENTER, "Error");
-      }
+      }}
