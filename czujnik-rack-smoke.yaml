@@ -43,7 +43,7 @@ sensor:
     pin: GPIO34
     name: "Czujnik Dymu"
     id: czujnik_dymu
-    update_interval: 1s
+    update_interval: 5s
     filters:
       - multiply: 100
     unit_of_measurement: "%"
