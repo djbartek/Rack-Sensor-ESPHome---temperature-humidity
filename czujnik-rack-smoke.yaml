@@ -124,14 +124,14 @@ display:
       if (id(dht_wilgotnosc_rack).has_state()) {
         it.printf(48, 64, id(font2), TextAlign::BASELINE_CENTER, "%.0f%%", id(dht_wilgotnosc_rack).state);
       } else {
-        it.printf(48, 64, id(font2), TextAlign::BASELINE_CENTER, "Error");
+        it.printf(46, 64, id(font2), TextAlign::BASELINE_CENTER, "Error");
       }
 
       // Print dht_temperatura_rack (from dht sensor)
       if (id(dht_temperatura_rack).has_state()) {
         it.printf(48, 36, id(font2), TextAlign::BASELINE_CENTER, "%.1f°C", id(dht_temperatura_rack).state);
       } else {
-        it.printf(50, 36, id(font2), TextAlign::BASELINE_CENTER, "Error");
+        it.printf(47, 34, id(font2), TextAlign::BASELINE_CENTER, "Error");
       }      
 
       // Print signal (from homeassistant sensor)
