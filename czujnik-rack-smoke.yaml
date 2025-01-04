@@ -24,6 +24,8 @@ ota:
 
 wifi:
   networks:
+  - ssid: !secret IoT_wifi_ssid
+    password: !secret IoT_wifi_password
   - ssid: !secret 1_wifi_ssid
     password: !secret 1_wifi_password
   - ssid: !secret 2_wifi_ssid
@@ -43,7 +45,7 @@ sensor:
     pin: GPIO34
     name: "Czujnik Dymu"
     id: czujnik_dymu
-    update_interval: 5s
+    update_interval: 2s
     filters:
       - multiply: 100
     unit_of_measurement: "%"
