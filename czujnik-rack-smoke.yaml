@@ -65,6 +65,16 @@ sensor:
     name: "home_assistant_core_update"
     internal: true
 
+#output:
+# - platform: ledc
+#   pin: GPIO12
+#   id: buzzer_output
+   # frequency deleted from output as this will be set in switch 
+   # frequency: 2300hz
+
+#rtttl:
+#  output: buzzer_output
+  
 font:
   - file: 'arial.ttf'
     id: font0
