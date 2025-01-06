@@ -1,3 +1,4 @@
+
 esphome:
   name: czujnik-rack
   friendly_name: Czujnik Rack
@@ -26,14 +27,16 @@ wifi:
   networks:
   - ssid: !secret IoT_wifi_ssid
     password: !secret IoT_wifi_password
+  - ssid: !secret IoT-P_wifi_ssid
+    password: !secret IoT-P_wifi_password
   - ssid: !secret 1_wifi_ssid
     password: !secret 1_wifi_password
   - ssid: !secret 2_wifi_ssid
     password: !secret 2_wifi_password
   - ssid: !secret p1_wifi_ssid
     password: !secret p1_wifi_password
-
-# Enable fallback hotspot (captive portal) in case wifi connection fails
+   
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: !secret ap_ssid
     password: !secret ap_password
@@ -82,7 +85,7 @@ button:
        - rtttl.play: 'mission_imp:d=16,o=6,b=95:32d,32d#,32d,32d#,32d,32d#,32d,32d#,32d,32d,32d#,32e,32f,32f#,32g,g,8p,g,8p,a#,p,c7,p,g,8p,g,8p,f,p,f#,p,g,8p,g,8p,a#,p,c7,p,g,8p,g,8p,f,p,f#,p,a#,g,2d,32p,a#,g,2c#,32p,a#,g,2c,a#5,8c,2p,32p,a#5,g5,2f#,32p,a#5,g5,2f,32p,a#5,g5,2e,d#,8d'
 
   - platform: template
-    name: "Stop !"
+    name: "Stop !"  
     on_press:
       then:
        - rtttl.stop
@@ -92,12 +95,12 @@ button:
 # - platform: ledc
 #   pin: GPIO12
 #   id: buzzer_output
-# frequency deleted from output as this will be set in switch
-# frequency: 2300hz
+   # frequency deleted from output as this will be set in switch
+   # frequency: 2300hz
 
 #rtttl:
 #  output: buzzer_output
-
+ 
 font:
   - file: 'arial.ttf'
     id: font0
@@ -145,10 +148,11 @@ display:
       // Print signal (main)
       if
        ((id(czujnik_dymu).state >=60) or (id(dht_temperatura_rack).state >=50)) {
-         it.printf(64, 12, id(font6), TextAlign::TOP_CENTER, "! DYM !");
+         it.printf(64, 3, id(font6), TextAlign::TOP_CENTER, "! DYM !");
+         it.printf(65, 60, id(font5), TextAlign::BASELINE_CENTER, "%.0f%%", id(czujnik_dymu).state);
          id(alarm_buzzer).press();
       } else {
-
+     
       // Print "Czujnik Rack" in top center.
       it.printf(37, 0, id(font1), TextAlign::TOP_CENTER, "Czujnik Rack");
 
@@ -183,4 +187,3 @@ display:
       } else {
         it.printf(114, 45, id(font1), TextAlign::TOP_CENTER, "Error");
       }}
-
