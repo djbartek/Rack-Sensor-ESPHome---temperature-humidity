@@ -26,4 +26,29 @@ Connection guide for dummies:
 - Connect OLED SDA pin to ESP32 pin18
 - Connect OLED SCL pin to ESP32 pin19
 
+-----------------------------------------------
+
+Smoke sensor + buzzer:
+
+
+Shows Air quality. Once reaches 60% error “SMOKE!” and buzzer alarm activates.
+
+Needs additionally:
+
+    MQ-2 smoke sensor
+    Buzzer
+
+Connection guide for dummies:
+
+    Inside there is enough space to use female-female connection wires, no need to solder to any of the components! (as long they have male pins connectors)
+    Connect ESP32 3.3V pin to OLED VCC pin AND DHT22 VCC pin AND MQ-2 VCC pin
+    ConnectESP32 GND pin to DHT GND pin AND OLED GND pin AND Buzzer “-” pin
+    Connect DHT22 Data pin to ESP32 pin21
+    Connect MQ-2 Data pin to ESP32 pin34
+    Connect Buzzer “+” pin to ESP32 pin12
+    Connect OLED SDA pin to ESP32 pin18
+    Connect OLED SCL pin to ESP32 pin19
+
+
+
 Printables page: https://www.printables.com/pl/model/935048-1u-rack-sensor-esphome-temperature-humidity
