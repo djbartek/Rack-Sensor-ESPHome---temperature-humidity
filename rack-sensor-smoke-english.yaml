@@ -1,0 +1,189 @@
+
+esphome:
+  name: czujnik-rack
+  friendly_name: Rack sensor
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: DEBUG
+  logs:
+    component: ERROR
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_password
+
+ota:
+  password: !secret ota_password
+  platform: esphome
+
+wifi:
+  networks:
+  - ssid: !secret IoT_wifi_ssid
+    password: !secret IoT_wifi_password
+  - ssid: !secret IoT-P_wifi_ssid
+    password: !secret IoT-P_wifi_password
+  - ssid: !secret 1_wifi_ssid
+    password: !secret 1_wifi_password
+  - ssid: !secret 2_wifi_ssid
+    password: !secret 2_wifi_password
+  - ssid: !secret p1_wifi_ssid
+    password: !secret p1_wifi_password
+   
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret ap_ssid
+    password: !secret ap_password
+
+captive_portal:
+
+sensor:
+  - platform: adc
+    pin: GPIO34
+    name: "Czujnik Dymu"
+    id: czujnik_dymu
+    update_interval: 2s
+    filters:
+      - multiply: 100
+    unit_of_measurement: "%"
+    icon: "mdi:percent"
+  - platform: dht
+    pin: GPIO21
+    temperature:
+      name: "Temperatura Rack"
+      id: dht_temperatura_rack
+    humidity:
+      name: "Wilgotnosc Rack"
+      id: dht_wilgotnosc_rack
+    update_interval: 10s
+  - platform: homeassistant
+    id: core_update
+    entity_id: update.home_assistant_core_update
+    name: "home_assistant_core_update"
+    internal: true
+
+output:
+  - platform: ledc
+    pin: GPIO12
+    id: rtttl_out
+
+rtttl:
+  output: rtttl_out
+
+button:
+  - platform: template
+    name: "Play Module!"
+    id: alarm_buzzer
+    on_press:
+      then:
+       - rtttl.play: 'mission_imp:d=16,o=6,b=95:32d,32d#,32d,32d#,32d,32d#,32d,32d#,32d,32d,32d#,32e,32f,32f#,32g,g,8p,g,8p,a#,p,c7,p,g,8p,g,8p,f,p,f#,p,g,8p,g,8p,a#,p,c7,p,g,8p,g,8p,f,p,f#,p,a#,g,2d,32p,a#,g,2c#,32p,a#,g,2c,a#5,8c,2p,32p,a#5,g5,2f#,32p,a#5,g5,2f,32p,a#5,g5,2e,d#,8d'
+
+  - platform: template
+    name: "Stop !"  
+    on_press:
+      then:
+       - rtttl.stop
+
+
+#output:
+# - platform: ledc
+#   pin: GPIO12
+#   id: buzzer_output
+   # frequency deleted from output as this will be set in switch
+   # frequency: 2300hz
+
+#rtttl:
+#  output: buzzer_output
+ 
+font:
+  - file: 'arial.ttf'
+    id: font0
+    size: 4
+
+  - file: 'arial.ttf'
+    id: font1
+    size: 11
+
+  - file: 'arial.ttf'
+    id: font2
+    size: 21
+
+  - file: 'arial.ttf'
+    id: font3
+    size: 26
+
+  - file: 'arial.ttf'
+    id: font4
+    size: 8
+
+  - file: 'arial.ttf'
+    id: font5
+    size: 15
+
+  - file: 'arial.ttf'
+    id: font6
+    size: 41
+
+time:
+  - platform: homeassistant
+    id: esptime
+
+i2c:
+  sda: GPIO18
+  scl: GPIO19
+  scan: false
+
+display:
+  - platform: ssd1306_i2c
+    model: "SH1106 128x64"
+    address: 0x3C
+    lambda: |-
+
+      // Print signal (main)
+      if
+       ((id(czujnik_dymu).state >=60) or (id(dht_temperatura_rack).state >=50)) {
+         it.printf(64, 3, id(font6), TextAlign::TOP_CENTER, "! DYM !");
+         it.printf(65, 60, id(font5), TextAlign::BASELINE_CENTER, "%.0f%%", id(czujnik_dymu).state);
+         id(alarm_buzzer).press();
+      } else {
+     
+      // Print "Czujnik Rack" in top center.
+      it.printf(37, 0, id(font1), TextAlign::TOP_CENTER, "Czujnik Rack");
+
+      // Print time in HH:MM format
+      it.strftime(88, 0, id(font1), TextAlign::TOP_CENTER, "%H:%M", id(esptime).now());
+
+      // Print dht_wilgotnosc_rack (from dht sensor)
+      if (id(dht_wilgotnosc_rack).has_state()) {
+        it.printf(48, 64, id(font2), TextAlign::BASELINE_CENTER, "%.0f%%", id(dht_wilgotnosc_rack).state);
+      } else {
+        it.printf(46, 64, id(font2), TextAlign::BASELINE_CENTER, "Error");
+      }
+
+      // Print dht_temperatura_rack (from dht sensor)
+      if (id(dht_temperatura_rack).has_state()) {
+        it.printf(48, 36, id(font2), TextAlign::BASELINE_CENTER, "%.1f°C", id(dht_temperatura_rack).state);
+      } else {
+        it.printf(46, 36, id(font2), TextAlign::BASELINE_CENTER, "Error");
+      }      
+
+      // Print signal (from homeassistant sensor)
+      if (id(core_update).has_state()) {
+        it.printf(118, 0, id(font4), TextAlign::TOP_CENTER, "((o))");
+      } else {
+        it.printf(118, 0, id(font4), TextAlign::TOP_CENTER, "???");
+      }
+
+      // Print signal (from homeassistant sensor)
+      if (id(czujnik_dymu).state <60) {
+        it.printf(114, 27, id(font5), TextAlign::TOP_CENTER, "Air :");
+        it.printf(114, 45, id(font5), TextAlign::TOP_CENTER, "%.0f%%", id(czujnik_dymu).state);
+      } else {
+        it.printf(114, 45, id(font1), TextAlign::TOP_CENTER, "Error");
+      }}
