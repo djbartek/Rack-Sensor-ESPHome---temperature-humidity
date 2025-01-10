@@ -36,8 +36,8 @@ wifi:
 captive_portal:
 
 sensor:
+  # MQ-2 sensor:
   - platform: adc
-  # MQ-2 sensor
     pin: GPIO34
     name: "Smoke sensor"
     id: smoke_sensor
@@ -46,8 +46,8 @@ sensor:
       - multiply: 100
     unit_of_measurement: "%"
     icon: "mdi:percent"
+  # DTH22 sensor:
   - platform: dht
-  # DTH22 sensor
     pin: GPIO21
     temperature:
       name: "Temperature Rack"
@@ -56,16 +56,16 @@ sensor:
       name: "Humidity Rack"
       id: dht_humidity_rack
     update_interval: 10s
-  - platform: homeassistant
   # makeshift connection to home assistant sensor
+  - platform: homeassistant
     id: core_update
     entity_id: update.home_assistant_core_update
     name: "home_assistant_core_update"
     internal: true
 
 output:
+ # buzzer
   - platform: ledc
-  # buzzer
     pin: GPIO12
     id: rtttl_out
 
@@ -73,8 +73,8 @@ rtttl:
   output: rtttl_out
 
 button:
-  - platform: template
   # mission immposible theme as alarm sound XD
+  - platform: template
     name: "Play Module!"
     id: alarm_buzzer
     on_press:
@@ -86,10 +86,6 @@ button:
     on_press:
       then:
        - rtttl.stop
-
-
-#rtttl:
-#  output: buzzer_output
  
 font:
   - file: 'arial.ttf'
