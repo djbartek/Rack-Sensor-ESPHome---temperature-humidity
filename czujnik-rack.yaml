@@ -24,6 +24,10 @@ ota:
 
 wifi:
   networks:
+  - ssid: !secret IoT_wifi_ssid
+    password: !secret IoT_wifi_password
+  - ssid: !secret IoT-P_wifi_ssid
+    password: !secret IoT-P_wifi_password
   - ssid: !secret 1_wifi_ssid
     password: !secret 1_wifi_password
   - ssid: !secret 2_wifi_ssid
